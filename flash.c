@@ -21,7 +21,6 @@
 #include "main.h"
 #include "flash.h"
 #include "uart.h"
-#include "parallel.h"
 #include "lpc.h"
 #include "spi.h"
 #include "frser.h"
@@ -30,16 +29,29 @@
 
 static uint8_t flash_prot_in_use=0;
 
-static void flash_portclear(void) {
-// So that every test function can assume this reset/safe setup.
-	DDRA=0;
-	DDRB=0;
-	DDRC=0;
-	DDRD=0;
-	PORTA=0xFF;
-	PORTB=0xFF;
-	PORTC=0xFF;
-	PORTD=0xFF;
+void flash_portclear(void) {
+	/* This gives both nibble (fwh/lpc) and SPI sane PORT/DDR defaults. */
+	/* PORTB:
+	 * PB0: SPI CS, OC/EXT PU
+	 * (PB2: keep high out so AVR doesnt freak out re:SPI).
+	 * PB3: SPI MOSI
+	 * PB4: SPI MISO
+	 * PB5: SPI SCK / LED */
+	/* PORTC:
+	 * PC0-3 LPC/FWH D0-D3, OC */
+	/* PORTD:
+	 * PD0: UART RXD
+	 * PD1: UART TXD
+	 * PD2: LPC RST, OC
+	 * PD3: LPC FRAME
+	 * PD4: LPC INIT, OC
+	 * PD7: LPC CLK */
+	PORTB = _BV(1) | _BV(2) | _BV(3) | _BV(5);
+	DDRB = _BV(2) | _BV(3) | _BV(5);
+	PORTC = 0;
+	DDRC = 0;
+	PORTD = _BV(0) | _BV(1) | _BV(3) | _BV(7);
+	DDRD = _BV(1) | _BV(3) | _BV(7);
 }
 
 void flash_set_safe(void) {
@@ -63,53 +75,8 @@ uint8_t flash_idle_clock(void) {
 	return 0;
 }
 
-uint8_t flash_plausible_protocols(void) {
-	uint8_t protocols = SUPPORTED_BUSTYPES;
-	flash_portclear();
-	/* Note: spi_test==1 is trustworthy, parallel_test==0 is trustworthy, lpc_test is trustworthy, fwh_test is trustworthy. */
-	/* In other words, spi_test==0 is not trustworthy, and parallel_test==1 is not trustworthy. */
-	if (spi_test()) {
-		// 0 or SPI, because using parallel while SPI chip is attached is potentially dangerous.
-		protocols &= CHIP_BUSTYPE_SPI;
-		return protocols;
-	}
-	flash_portclear();
-	if ((protocols&CHIP_BUSTYPE_PARALLEL)&&(!parallel_test())) {
-		protocols &= ~CHIP_BUSTYPE_PARALLEL;
-	}
-	flash_portclear();
-	if (protocols&CHIP_BUSTYPE_LPC) {
-		if (!lpc_test()) {
-			protocols &= ~CHIP_BUSTYPE_LPC;
-		} else { // if lpc test passes, it certainly is not SPI chip that is attached.
-			protocols &= ~CHIP_BUSTYPE_SPI;
-		}
-	}
-	flash_portclear();
-	if (protocols&CHIP_BUSTYPE_FWH) {
-		if (!fwh_test()) {
-			protocols &= ~CHIP_BUSTYPE_FWH;
-		} else { // Same here, if fwh then not spi.
-			protocols &= ~CHIP_BUSTYPE_SPI;
-		}
-	}
-	flash_select_protocol(flash_prot_in_use);
-	return protocols;
-}
-
 void flash_select_protocol(uint8_t allowed_protocols) {
 	allowed_protocols &= SUPPORTED_BUSTYPES;
-	flash_portclear();
-	if (spi_test()) {
-		// 0 or SPI, because using parallel while SPI chip is attached is potentially dangerous.
-		flash_prot_in_use = allowed_protocols&CHIP_BUSTYPE_SPI;
-		return;
-	}
-	flash_portclear();
-	if ((allowed_protocols&CHIP_BUSTYPE_PARALLEL)&&(parallel_test())) {
-		flash_prot_in_use = CHIP_BUSTYPE_PARALLEL;
-		return;
-	}
 	flash_portclear();
 	if ((allowed_protocols&CHIP_BUSTYPE_LPC)&&(lpc_test())) {
 		flash_prot_in_use = CHIP_BUSTYPE_LPC;
@@ -120,43 +87,22 @@ void flash_select_protocol(uint8_t allowed_protocols) {
 		flash_prot_in_use = CHIP_BUSTYPE_FWH;
 		return;
 	}
+	flash_portclear();
+	/* SPI last because it is really independent of FWH/LPC and works even when not selected. */
+	if ((allowed_protocols&CHIP_BUSTYPE_SPI)&&(spi_test())) {
+		flash_prot_in_use = CHIP_BUSTYPE_SPI;
+		return;
+	}
 	flash_prot_in_use = 0;
 	return;
 }
 
-static void spi_uninit_check(void)
-{
-	if ((flash_prot_in_use!=CHIP_BUSTYPE_SPI)&&((SUPPORTED_BUSTYPES) & CHIP_BUSTYPE_SPI)) {
-		if (spi_uninit()) {
-			flash_portclear();
-			switch (flash_prot_in_use) {
-				case 0:
-				default:
-					break;
-				case CHIP_BUSTYPE_PARALLEL:
-					parallel_test();
-					break;
-
-				case CHIP_BUSTYPE_LPC:
-					lpc_test();
-					break;
-
-				case CHIP_BUSTYPE_FWH:
-					fwh_test();
-					break;
-			}
-		}
-	}
-}
 
 uint8_t flash_read(uint32_t addr) {
-	spi_uninit_check();
 	switch (flash_prot_in_use) {
 		case 0:
 		default:
 			return 0xFF;
-		case CHIP_BUSTYPE_PARALLEL:
-			return parallel_read(addr);
 		case CHIP_BUSTYPE_LPC:
 			return lpc_read_address(addr);
 		case CHIP_BUSTYPE_FWH:
@@ -167,15 +113,11 @@ uint8_t flash_read(uint32_t addr) {
 }
 
 void flash_readn(uint32_t addr, uint32_t len) {
-	spi_uninit_check();
 	if (len==0) len = ((uint32_t)1<<24);
 	switch (flash_prot_in_use) {
 		case 0:
 		default:
 			while (len--) SEND(0xFF);
-			return;
-		case CHIP_BUSTYPE_PARALLEL:
-			parallel_readn(addr,len);
 			return;
 		case CHIP_BUSTYPE_LPC:
 			while (len--) SEND(lpc_read_address(addr++));
@@ -190,13 +132,9 @@ void flash_readn(uint32_t addr, uint32_t len) {
 }
 
 void flash_write(uint32_t addr, uint8_t data) {
-	spi_uninit_check();
 	switch (flash_prot_in_use) {
 		case 0:
 		default:
-			return;
-		case CHIP_BUSTYPE_PARALLEL:
-			parallel_write(addr,data);
 			return;
 		case CHIP_BUSTYPE_LPC:
 			lpc_write_address(addr,data);

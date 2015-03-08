@@ -22,9 +22,13 @@
 #define OUTPUT 1
 #define INPUT 0
 
-#define CLK_DDR				DDRA
-#define CLK_PORT			PORTA
-#define CLK				PA0
+#define CLK_DDR				DDRD
+#define CLK_PORT			PORTD
+#define CLK				PD7
+
+
+#define delay() asm("nop")
+
 
 bool nibble_init();
 void nibble_cleanup();

@@ -1,7 +1,6 @@
-frser-atmega644
-===============
+frser-m328lpcspi
+================
 
-Flashrom serprog device code for my ATmega644p + FTDI232R thingy.
+Flashrom serprog device code for LPC/FWH + SPI on an atmega328p at 5V.
 
-See http://urjaman.dy.fi/usbavrprog for more info on this thingy.
 

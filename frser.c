@@ -56,10 +56,10 @@ uint8_t get_last_op(void) {
 
 const char PROGMEM ca_nop[1] = { S_ACK };
 const char PROGMEM ca_iface[3] = { S_ACK,0x01,0x00 };
-const char PROGMEM ca_bitmap[33] = { S_ACK, 0xFF, 0xFF, 0xBF, 0x01 };
-const char PROGMEM ca_pgmname[17] = { S_ACK, 'A','T','M','e','g','a','6','4','4',' ','U','S','B' }; /* An ATMega644 FTDI USB device */
+const char PROGMEM ca_bitmap[33] = { S_ACK, 0xBF, 0xFF, 0x9F, 0x01 };
+const char PROGMEM ca_pgmname[17] = { S_ACK, 'M','3','2','8',' ','L','P','C','+','S','P','I' };
 const char PROGMEM ca_serbuf[3] = { S_ACK, (UART_RBUFLEN)&0xFF, (UART_RBUFLEN>>8)&0xFF };
-/* const char PROGMEM ca_bustypes[2] = { S_ACK, SUPPORTED_BUSTYPES }; */
+const char PROGMEM ca_bustypes[2] = { S_ACK, SUPPORTED_BUSTYPES };
 const char PROGMEM ca_chipsize[2] = { S_ACK, 19 };
 const char PROGMEM ca_opbufsz[3] = { S_ACK, S_OPBUFLEN&0xFF, (S_OPBUFLEN>>8)&0xFF };
 const char PROGMEM ca_wrnlen[4] = { S_ACK, 0x00, 0x01, 0x00 };
@@ -73,9 +73,10 @@ const struct constanswer PROGMEM const_table[S_MAXCMD+1] = {
 	{ 33, ca_bitmap },	// op bitmap
 	{ 17, ca_pgmname },	// programmer name
 	{ 3, ca_serbuf },	// serial buffer size
-	{ 0, NULL },		// bustypes
-	{ 2, ca_chipsize },	// chip size
+	{ 2, ca_bustypes },	// bustypes
+	{ 0, NULL },		// chip size
 	{ 3, ca_opbufsz },	// operation buffer size
+
 	{ 4, ca_wrnlen },	// write-n max len
 	{ 0, NULL },		// read byte
 	{ 0, NULL },		// read n
@@ -84,6 +85,7 @@ const struct constanswer PROGMEM const_table[S_MAXCMD+1] = {
 	{ 0, NULL },		// opbuf, write-n
 	{ 0, NULL },		// opbuf, delay
 	{ 0, NULL },		// exec opbuf
+
 	{ 2, ca_syncnop },	// sync nop
 	{ 4, ca_rdnmaxlen },	// Read-n maximum len
 	{ 0, NULL },		// Set bustype
@@ -92,6 +94,7 @@ const struct constanswer PROGMEM const_table[S_MAXCMD+1] = {
 	{ 0, NULL },		// set output drivers
 	{ 1, ca_syncnop },	// JEDEC toggle rdy => NAK (discard that thing)
 	{ 0, NULL },		// Poll
+
 	{ 0, NULL }		// Poll w delay
 };
 
@@ -414,15 +417,14 @@ void frser_main(void) {
 
 		/* These are the operations that need real acting upon: */
 		switch (op) {
+			default:
+				SEND(S_NAK);
+				break;
 			case S_CMD_R_BYTE:
 				do_cmd_readbyte(parbuf);
 				break;
 			case S_CMD_R_NBYTES:
 				do_cmd_readnbytes(parbuf);
-				break;
-			case S_CMD_Q_BUSTYPE: /* Dynamic bus types. */
-				SEND(S_ACK);
-				SEND(flash_plausible_protocols());
 				break;
 
 			case S_CMD_O_INIT:
@@ -432,25 +434,32 @@ void frser_main(void) {
 				   order to detect change of chip between flashrom runs */
 				do_cmd_set_proto(last_set_bus_types);
 				break;
+
 			case S_CMD_O_WRITEB:
 				do_cmd_opbuf_writeb(parbuf);
 				break;
+
 			case S_CMD_O_WRITEN:
 				do_cmd_opbuf_writen();
 				break;
+
 			case S_CMD_O_DELAY:
 				do_cmd_opbuf_delay(parbuf);
 				break;
+
 			case S_CMD_O_EXEC:
 				do_cmd_opbuf_exec();
 				break;
+
 			case S_CMD_S_BUSTYPE:
 				SEND(S_ACK);
 				do_cmd_set_proto(parbuf[0]);
 				break;
+
 			case S_CMD_O_SPIOP:
 				do_cmd_spiop(parbuf);
 				break;
+
 			case S_CMD_S_SPI_FREQ:
 				do_cmd_spispeed(parbuf);
 				break;

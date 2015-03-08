@@ -18,22 +18,20 @@
 ## Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 ##
 
-PROJECT=frser-atmega644
-DEPS=uart.h frser.h udelay.h main.h parallel.h lpc.h flash.h fwh.h nibble.h Makefile
+PROJECT=frser-m328lpcspi
+DEPS=uart.h frser.h udelay.h main.h lpc.h flash.h fwh.h nibble.h Makefile
 CIFACE_SOURCES=ciface.c console.c lib.c appdb.c commands.c
-SOURCES=main.c uart.c flash.c udelay.c frser.c parallel.c lpc.c spi.c fwh.c nibble.c $(CIFACE_SOURCES)
+SOURCES=main.c uart.c flash.c udelay.c frser.c lpc.c spi.c fwh.c nibble.c $(CIFACE_SOURCES)
 CC=avr-gcc
 LD=avr-ld
 OBJCOPY=avr-objcopy
-MMCU=atmega644p
-BTLOADERADDR=0xFC00
+MMCU=atmega328p
 SERIAL_DEV=/dev/ttyUSB0
-UISP=uisp_bbpg
 
-AVRBINDIR=/usr/avr/bin/
-#AVRDUDECMD=avrdude -p m644p -c dt006 -E noreset
+#AVRBINDIR=/usr/avr/bin/
+AVRDUDECMD=avrdude -p m328p -P $(SERIAL_DEV) -b 115200 -c arduino
 # If using avr-gcc < 4.6.0, replace -flto with -combine
-CFLAGS=-mmcu=$(MMCU) -Os -mcall-prologues -Wl,--relax -fno-inline-small-functions -fno-tree-scev-cprop -fno-tree-switch-conversion -frename-registers -g -Wall -W -pipe -flto -fwhole-program -std=gnu99
+CFLAGS=-mmcu=$(MMCU) -Os -mcall-prologues -Wl,--relax -fno-inline-small-functions -fno-tree-switch-conversion -frename-registers -g -Wall -W -pipe -flto -fwhole-program -std=gnu99
 
 
 all: $(PROJECT).out
@@ -45,18 +43,16 @@ $(PROJECT).bin: $(PROJECT).out
 	$(AVRBINDIR)$(OBJCOPY) -j .text -j .data -O binary $(PROJECT).out $(PROJECT).bin
  
 $(PROJECT).out: $(SOURCES) $(DEPS)
-	$(AVRBINDIR)$(CC) -DBTLOADERADDR=$(BTLOADERADDR) $(CFLAGS) -I./ -o $(PROJECT).out $(SOURCES)
+	$(AVRBINDIR)$(CC)  $(CFLAGS) -I./ -o $(PROJECT).out $(SOURCES)
 	$(AVRBINDIR)avr-size $(PROJECT).out
 	
 asm: $(SOURCES) $(DEPS)
 	$(AVRBINDIR)$(CC) $(CFLAGS) -S  -I./ -o $(PROJECT).s $(SOURCES)
 	
 
-#program: $(PROJECT).hex
-#	$(AVRBINDIR)$(AVRDUDECMD) -U flash:w:$(PROJECT).hex
+program: $(PROJECT).hex
+	$(AVRBINDIR)$(AVRDUDECMD) -U flash:w:$(PROJECT).hex
 
-program: $(PROJECT).bin serialprogrammer
-	sudo make sr-program
 
 clean:
 	rm -f $(PROJECT).bin
@@ -64,39 +60,9 @@ clean:
 	rm -f $(PROJECT).hex
 	rm -f $(PROJECT).s
 	rm -f *.o
-	rm -f boot.out boot.hex
-	rm -f serialprogrammer
 	
 backup:
 	$(AVRBINDIR)$(AVRDUDECMD) -U flash:r:backup.bin:r
-
-bootloader-pgm: boot.hex
-	sudo make bootloader-pgm-r
-
-bootloader-pgm-r: boot.hex
-	$(UISP) -v=3 -dprog=bbpg -dt_sck=5 --wr_fuse_e=0xFD --wr_fuse_h=0xDE --wr_fuse_l=0xC0 if=boot.hex --upload --verify
-
-bootloader: boot.hex
-
-boot.hex: boot.out
-	$(AVRBINDIR)$(OBJCOPY) -j .bootloader -O ihex boot.out boot.hex
-
-boot.out:  boot.S
-	$(AVRBINDIR)$(CC) -mmcu=$(MMCU) -c -o boot.o boot.S
-	$(AVRBINDIR)$(LD) --section-start=.bootloader=$(BTLOADERADDR) -o boot.out boot.o
-
-# bbpg usage here is to reset the AVR, so that you dont need to re-plug the USB cable all the time
-sr-program: $(PROJECT).bin serialprogrammer
-	$(UISP) -dprog=bbpg -dt_sck=5
-	modprobe ftdi_sio
-	sleep 1s
-	./serialprogrammer $(PROJECT).bin $(SERIAL_DEV)
-
-blj-program: $(PROJECT).bin serialprogrammer
-	./serialprogrammer --bljump=1500000 $(PROJECT).bin $(SERIAL_DEV)
-
-serialprogrammer: serialprogrammer.c
-	gcc -W -Wall -Os -o serialprogrammer serialprogrammer.c
 
 objdump: $(PROJECT).out
 	$(AVRBINDIR)avr-objdump -xdC $(PROJECT).out | less

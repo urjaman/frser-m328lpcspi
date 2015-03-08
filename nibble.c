@@ -20,45 +20,39 @@
 #include "nibble.h"
 
 
-// 1 instruction is 83 ns, there is one place where we know we need a delay()...
-#define delay() asm("nop")
 
-#define FRAME_DDR			DDRC
-#define FRAME_PORT			PORTC
-#define FRAME				PC7
+#define FRAME_DDR			DDRD
+#define FRAME_PORT			PORTD
+#define FRAME				PD3
 
 
-#define INIT_DDR			DDRA
-#define INIT_PORT			PORTA
-#define INIT				PA7
+#define INIT_DDR			DDRD
+#define INIT_PORT			PORTD
+#define INIT				PD4
 
 void nibble_set_dir(uint8_t dir) {
-	if (dir) {
-		DDRC |= 0x03;
-		DDRD |= 0xC0;
-	} else {
-		DDRC &= ~(0x03);
-		DDRD &= ~(0xC0);
-		PORTC |= 0x03;
-		PORTD |= 0xC0;
+	if (!dir) {
+		DDRC = 0;
 	}
 }
 
 uint8_t nibble_read(void) {
 	uint8_t rv;
-	rv = (PINC & 0x03)<<2;
-	rv |= (PIND & 0xC0)>>6;
+	rv = PINC & 0xF;
 	return rv;
 }
 
 static void nibble_write_hi(uint8_t data) {
-	PORTC = ((PORTC & 0xFC) | ((data>>6) & 0x03));
-	PORTD = ((PORTD & 0x3F) | ((data<<2) & 0xC0));
+	swap(data);
+	DDRC = (~data) & 0xF;
+//	data &= 0xF;
+//	while ((PINC & 0xF) != data);
 }
 
 void nibble_write(uint8_t data) {
-	PORTC = ((PORTC & 0xFC) | ((data>>2) & 0x03));
-	PORTD = ((PORTD & 0x3F) | ((data<<6) & 0xC0));
+	DDRC = (~data) & 0xF;
+//	data &= 0xF;
+//	while ((PINC & 0xF) != data);
 }
 
 #define clock_low() do { CLK_PORT &= ~_BV(CLK); } while(0)
@@ -69,8 +63,8 @@ void nibble_write(uint8_t data) {
 bool nibble_init(void) {
 	uint8_t i;
 
-	INIT_DDR |= _BV(INIT);
 	INIT_PORT &= ~_BV(INIT);
+	INIT_DDR |= _BV(INIT);
 
 	CLK_DDR |= _BV(CLK);
 	CLK_PORT |= _BV(CLK);
@@ -83,7 +77,8 @@ bool nibble_init(void) {
 
 	for (i = 0; i < 24; i++)
 		clock_cycle();
-	INIT_PORT |= _BV(INIT);
+	INIT_DDR &= ~_BV(INIT);
+	_delay_us(1); // Let pullup work
 	for (i = 0; i < 42; i++)
 		clock_cycle();
 
@@ -110,6 +105,7 @@ void clocked_nibble_write_hi(uint8_t value) {
 
 uint8_t clocked_nibble_read(void) {
 	clock_cycle();
+	delay();
 	delay();
 	return nibble_read();
 }
@@ -145,38 +141,5 @@ void byte_write(uint8_t byte) {
 }
 
 void nibble_hw_init(void) {
-	uint8_t x;
-	// !RST = A16 = PB1 => 1
-	// !INIT =  !OE = PA7 => 1
-	// A6..A9 = PA4..5 + PB4..5  => pullup
-	// A17 = GPI4 = PA1 => pullup
-	// IC = A14 = PA2 => 0
-	// !WP = A5 = PB6 => 1
-	// !TBL = A4 = PB7 => 1
-	// CLK = !WE = PA0 => 1
-	// !LFRAME = A10 = PC7 => 1
-	// PORTA:
-	// 01457=1, 2=0
-	// DDRA:
-	// 027=1,45=0
-	// PORTB:
-	// 1456 => 1
-	// DDRB:
-	// 16 => 1
-	// PORTC:
-	// 7 => 1
-	// DDRC:
-	// 7 => 1
-	x = PORTA;
-	x |= (_BV(0)||_BV(1)|_BV(4)|_BV(5)|_BV(7));
-	x &= ~_BV(2);
-	PORTA = x;
-	x = DDRA;
-	x |= (_BV(0)|_BV(2)|_BV(7));
-	x &= ~(_BV(4)|_BV(5));
-	DDRA = x;
-	PORTB |= (_BV(1)|_BV(4)|_BV(5)|_BV(6));
-	DDRB |= (_BV(1)|_BV(6));
-	PORTC |= _BV(7);
-	DDRC |= _BV(7);
+	/* Nothing needed, all PORT init in flash_portclear(). */
 }

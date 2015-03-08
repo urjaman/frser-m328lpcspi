@@ -23,20 +23,11 @@
 #include "flash.h"
 #include "frser.h"
 
-static uint8_t rst_reason;
-uint8_t get_rst_reason(void) {
-	return rst_reason;
-}
 
 int main(void) {
 	cli();
-	rst_reason = MCUSR;
-	MCUSR = 0;
+	flash_portclear(); /* Abuse flash.c to give us PORT defaults. */
 	uart_init();
-	power_adc_disable();
-	power_timer0_disable();
-	power_timer2_disable();
-	power_twi_disable();
 	frser_main();
 }
 

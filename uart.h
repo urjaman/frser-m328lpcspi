@@ -27,16 +27,21 @@ void uart_wait_txdone(void);
 void uart_set_timeout(jmp_buf *buf);
 uint8_t uart_peek(void);
 
-#define BAUD 1500000
+
+#define BAUD 2000000
 //#define BAUD 500000
 //#define BAUD 115200
 #define PEEK() uart_peek()
 #define RECEIVE() uart_recv()
 #define SEND(n) uart_send(n)
-#define UART_BUFLEN 1280
+#define UART_BUFLEN 512
 // At high speed polled TX is faster than interrupt TX
 #if BAUD > 115200
 #define UART_POLLED_TX
+#endif
+
+#if BAUD == 115200
+#define BAUD_TOL 3
 #endif
 
 #ifdef UART_POLLED_TX

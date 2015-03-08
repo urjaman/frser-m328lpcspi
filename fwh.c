@@ -19,7 +19,6 @@
 #include "main.h"
 #include "nibble.h"
 #include "fwh.h"
-#include "parallel.h"
 #include "typeu.h"
 
 #define FWH_START_READ 0b1101
@@ -101,11 +100,11 @@ bool fwh_write_address(uint32_t addr, uint8_t byte) {
 }
 
 uint8_t fwh_test(void) {
-	if (parallel_test()) return 0; // If parallel test succeeds, not FWH/LPC
 	nibble_hw_init();
-	PORTB &= ~_BV(1); //!RST
+	DDRD |= _BV(2); //!RST
 	_delay_us(1);
-	PORTB |= _BV(1);
+	DDRD &= ~_BV(2);
+	_delay_us(1); // slow pullup
 	fwh_init();
 	if (fwh_read_address(0xFFFFFFFF)==-1) return 0;
 	return 1;

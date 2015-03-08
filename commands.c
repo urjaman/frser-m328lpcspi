@@ -27,7 +27,6 @@
 #include "ciface.h"
 #include "spi.h"
 #include "lpc.h"
-#include "parallel.h"
 #include "lpc.h"
 #include "fwh.h"
 #include "frser.h"
@@ -170,11 +169,8 @@ void help_cmd(void) {
 	}
 }
 
-uint8_t get_rst_reason(void);
-
 void frser_last_op_cmd(void) {
 	luint2outdual(get_last_op());
-	luint2outdual(get_rst_reason());
 }
 
 
@@ -316,10 +312,6 @@ void spi_test_cmd(void) {
 	print_bool(spi_test());
 }
 
-void par_test_cmd(void) {
-	flash_set_safe();
-	print_bool(parallel_test());
-}
 
 void lpc_test_cmd(void) {
 	flash_set_safe();
@@ -330,13 +322,6 @@ void fwh_test_cmd(void) {
 	flash_set_safe();
 	print_bool(fwh_test());
 }
-
-void bljump_cmd(void) {
-	void (*btloader)(void)	= (void*)(BTLOADERADDR>>1); // Make PM
-	_delay_ms(100);
-	btloader();
-}
-
 
 void flash_sproto_cmd(void)
 {

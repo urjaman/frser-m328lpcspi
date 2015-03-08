@@ -19,7 +19,6 @@
 #include "main.h"
 #include "nibble.h"
 #include "lpc.h"
-#include "parallel.h"
 #include "typeu.h"
 
 #define LPC_START 0b0000
@@ -99,11 +98,11 @@ bool lpc_write_address(uint32_t addr, uint8_t byte) {
 
 
 uint8_t lpc_test(void) {
-	if (parallel_test()) return 0; // If parallel test succeeds, not FWH/LPC
 	nibble_hw_init();
-	PORTB &= ~_BV(1); //!RST
+	DDRD |= _BV(2); //!RST
 	_delay_us(1);
-	PORTB |= _BV(1);
+	DDRD &= ~_BV(2);
+	_delay_us(1); // slow pullup
 	lpc_init();
 	if (lpc_read_address(0xFFFFFFFF)==-1) return 0;
 	return 1;

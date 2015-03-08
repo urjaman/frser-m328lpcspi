@@ -1,7 +1,7 @@
 /*
- * This file is part of the frser-atmega644 project.
+ * This file is part of the frser-m328lpcspi project.
  *
- * Copyright (C) 2009,2011 Urja Rannikko <urjaman@gmail.com>
+ * Copyright (C) 2015 Urja Rannikko <urjaman@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,77 +26,88 @@
 
 static int spi_initialized = 0;
 
-static uint8_t spi_set_ubrr = 0; /* Max speed, 6 Mhz. */
+static uint8_t spi_set_spd = 0; /* Max speed - F_CPU/2 */
+
+const uint8_t PROGMEM spd_table[7] = {
+	0x80, // SPI2X is 0x80 in this table because i say so. - div 2
+	0, // div 4
+	0x80 | _BV(SPR0), // div 8
+	_BV(SPR0), // div 16
+	0x80 | _BV(SPR1), // div 32
+	_BV(SPR1), // div64
+	_BV(SPR1) | _BV(SPR0), //div128
+};
+
+const uint32_t PROGMEM spd_hz_table[7] = {
+	F_CPU/2, F_CPU/4, F_CPU/8, F_CPU/16, F_CPU/32, F_CPU/64, F_CPU/128
+};
 
 uint32_t spi_set_speed(uint32_t hz) {
+	/* We can set F_CPU / : 2,4,8,16,32,64,128 */
+
+	uint8_t spd;
+	uint32_t hz_spd;
+
 	/* Range check. */
-	if (hz>(F_CPU/2)) {
-		spi_set_ubrr = 0;
-		return F_CPU/2;
+	if (hz<=(F_CPU/128)) {
+		spd = 6;
+		hz_spd = F_CPU/128;
+	} else {
+		for (uint8_t spd=0;spd<7;spd++) {
+			hz_spd = pgm_read_dword(&(spd_hz_table[spd]));
+			if (hz >= hz_spd) break;
+		}
 	}
-	if (hz<(F_CPU/512)) {
-		spi_set_ubrr = 255;
-		return F_CPU/512;
+	spi_set_spd = spd;
+	if (spi_initialized) { // change speed
+		uint8_t spdv = pgm_read_byte(&(spd_table[spi_set_spd]));
+		SPCR = (SPCR & 0xFC) | (spdv & 0x3);
+		if (spdv&0x80) SPSR |= _BV(SPI2X);
+		else SPSR &= ~_BV(SPI2X);
 	}
-
-	uint32_t bdiv = hz*2;
-	uint32_t ubrr_vp = (F_CPU / bdiv)-1;
-	// If the division is not perfect, increase the result (round down).
-	if (F_CPU%bdiv) ubrr_vp++;
-
-	spi_set_ubrr = ubrr_vp;
-
-	uint32_t new_hz = F_CPU / ((ubrr_vp+1)*2);
-	return new_hz;
+	return hz_spd;
 }
 
 static void spi_select(void) {
-	UBRR1 = 0;
-	UCSR1B = _BV(TXEN1)|_BV(RXEN1);
-	UBRR1 = (uint16_t)spi_set_ubrr;
-	PORTB &= ~_BV(4);
-	DDRB |= _BV(4);
+	DDRB |=_BV(0);
 }
 
-static void spi_deselect(void) {
-	PORTB |= _BV(4);
-	UCSR1B = 0;
+void spi_deselect(void) {
+	DDRB &= ~_BV(0);
+	_delay_us(1); // slow pullup
+}
+
+void spi_init(void) {
+	/* DDR and PORT settings come from flash.c */
+	uint8_t spdv = pgm_read_byte(&(spd_table[spi_set_spd]));
+	SPCR = (1<<SPE)|(1<<MSTR) | (spdv & 0x03);
+	if (spdv&0x80) SPSR |= _BV(SPI2X);
+	else SPSR &= ~_BV(SPI2X);
 }
 
 static uint8_t spi_txrx(const uint8_t c) {
-	UDR1 = c;
-	while (!(UCSR1A&_BV(RXC1)));
-	return UDR1;
-}
-
-
-static void spi_init(void) {
-	PORTB |= _BV(3)|_BV(4);
-	DDRB |= _BV(3)|_BV(4); // !WP&!CS high
-	PORTA |= _BV(1);
-	DDRA |= _BV(1); // !HOLD high
-	DDRD = ( DDRD & ~_BV(2)) | _BV(3) | _BV(4);
-	PORTD =  ( PORTD &  ~( _BV(3) | _BV(4) ) ) | _BV(2);
-	// DO/RXD (2), DI/TXD (3) and CLK (4) correctly. Pullup on RXD for 0xFF.
-	DDRD |= _BV(2); /* RXD: short drive 1 pulse (while !CS=high it should be safe) */
-	UCSR1C = _BV(UMSEL11)|_BV(UMSEL10);
-	DDRD &= ~_BV(2);
-	spi_initialized = 1;
+	uint8_t r;
+	SPDR = c;
+	loop_until_bit_is_set(SPSR,SPIF);
+	r = SPDR;
+	return r;
 }
 
 void spi_init_cond(void) {
-	if (!spi_initialized) spi_init();
+	if (!spi_initialized) {
+		spi_init();
+		spi_initialized = 1;
+	}
 }
 
 uint8_t spi_uninit(void) {
 	if (spi_initialized) {
-		UCSR1C = 0;
+		SPCR = 0;
 		spi_initialized = 0;
 		return 1;
 	}
 	return 0;
 }
-
 
 static void spi_localop_start(uint8_t sbytes, const uint8_t* sarr) {
 	uint8_t i;
