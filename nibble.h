@@ -1,5 +1,5 @@
 /*
-	This file is part of bbflash.
+	This file was part of bbflash, now frser-m328lpcspi.
 	Copyright (C) 2013, Hao Liu and Robert L. Thompson
 
 	This program is free software: you can redistribute it and/or modify

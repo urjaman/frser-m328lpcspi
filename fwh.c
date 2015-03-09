@@ -1,5 +1,5 @@
 /*
-	This file was part of bbflash, now frser-atmega644.
+	This file was part of bbflash, now frser-m328lpcspi.
 	Copyright (C) 2013, Hao Liu and Robert L. Thompson
 	Copyright (C) 2013, Urja Rannikko <urjaman@gmail.com>
 
