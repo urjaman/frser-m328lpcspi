@@ -1,5 +1,5 @@
 ##
-## This file is part of the frser-atmega644 project.
+## This file is part of the frser-m328lpcspi project.
 ##
 ## Copyright (C) 2010,2011 Urja Rannikko <urjaman@gmail.com>
 ##
