@@ -92,6 +92,7 @@ unsigned long int closureparser(unsigned char firsttok, unsigned char*ptr) {
 	unsigned char *op=NULL;
 	unsigned char i,n;
 	unsigned long int val1, val2;
+	*ptr = firsttok+1;
 	if (token_count <= firsttok) return 0;
 	val1 = astr2luint(tokenptrs[firsttok]);
 	sendstr_P(PSTR("{ "));

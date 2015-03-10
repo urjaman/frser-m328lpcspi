@@ -31,7 +31,7 @@ SERIAL_DEV=/dev/ttyUSB0
 #AVRBINDIR=/usr/avr/bin/
 AVRDUDECMD=avrdude -p m328p -P $(SERIAL_DEV) -b 115200 -c arduino
 # If using avr-gcc < 4.6.0, replace -flto with -combine
-CFLAGS=-Ilibfrser -mmcu=$(MMCU) -Os -mcall-prologues -Wl,--relax -fno-inline-small-functions -fno-tree-switch-conversion -frename-registers -g -Wall -W -pipe -flto -fwhole-program -std=gnu99
+CFLAGS=-Ilibfrser -mmcu=$(MMCU) -O3 -Wl,--relax -fno-tree-switch-conversion -frename-registers -g -Wall -W -pipe -flto -flto-partition=none -fwhole-program -std=gnu99
 
 
 all: $(PROJECT).out
