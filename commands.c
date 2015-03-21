@@ -31,6 +31,11 @@
 #include "fwh.h"
 #include "frser.h"
 
+/* This is for allowing the code to fit in 16k for the atmega168p. */
+/* We optimize all of the unnecessary crap in Os instead of -O3 :P */
+#pragma GCC optimize ("Os")
+#pragma GCC optimize ("no-tree-switch-conversion")
+
 static void sendcrlf(void) {
 	sendstr_P(PSTR("\r\n"));
 }
@@ -351,3 +356,5 @@ void flash_sproto_cmd(void)
 	}
 	flash_select_protocol(p);
 }
+
+#pragma GCC reset_options
