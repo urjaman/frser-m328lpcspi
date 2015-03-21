@@ -45,13 +45,15 @@ void flash_portclear(void) {
 	 * PD2: LPC RST, OC
 	 * PD3: LPC FRAME
 	 * PD4: LPC INIT, OC
-	 * PD7: LPC CLK */
+	 * PD7 (or hacked PD6 if PD7 is bad to use): LPC CLK */
 	PORTB = _BV(1) | _BV(2) | _BV(3) | _BV(5);
 	DDRB = _BV(2) | _BV(3) | _BV(5);
 	PORTC = 0;
 	DDRC = 0;
-	PORTD = _BV(0) | _BV(1) | _BV(3) | _BV(7);
-	DDRD = _BV(1) | _BV(3) | _BV(7);
+	PORTD = _BV(0) | _BV(1) | _BV(3);
+	DDRD = _BV(1) | _BV(3);
+	CLK_PORT |= _BV(CLK);
+	CLK_DDR |= _BV(CLK);
 }
 
 void flash_set_safe(void) {
