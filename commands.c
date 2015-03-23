@@ -25,7 +25,7 @@
 #include "appdb.h"
 #include "flash.h"
 #include "ciface.h"
-#include "spi.h"
+#include "spilib.h"
 #include "lpc.h"
 #include "lpc.h"
 #include "fwh.h"

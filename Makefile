@@ -19,9 +19,9 @@
 ##
 
 PROJECT=frser-m328lpcspi
-DEPS=uart.h libfrser/udelay.h main.h lpc.h flash.h fwh.h nibble.h libfrser/frser.h frser-cfg.h Makefile
+DEPS=uart.h libfrser/udelay.h main.h lpc.h flash.h fwh.h nibble.h libfrser/frser.h frser-cfg.h libfrser/spilib.h libfrser/spihw_avrspi.h spihw.h spi_cs.h Makefile
 CIFACE_SOURCES=ciface.c console.c lib.c appdb.c commands.c
-SOURCES=main.c uart.c flash.c libfrser/udelay.c libfrser/frser.c lpc.c spi.c fwh.c nibble.c $(CIFACE_SOURCES)
+SOURCES=main.c uart.c flash.c libfrser/udelay.c libfrser/frser.c libfrser/spilib.c libfrser/spihw_avrspi.c lpc.c fwh.c nibble.c $(CIFACE_SOURCES)
 CC=avr-gcc
 LD=avr-ld
 OBJCOPY=avr-objcopy

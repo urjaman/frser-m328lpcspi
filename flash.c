@@ -22,7 +22,7 @@
 #include "flash.h"
 #include "uart.h"
 #include "lpc.h"
-#include "spi.h"
+#include "spilib.h"
 #include "frser.h"
 #include "fwh.h"
 #include "nibble.h"
