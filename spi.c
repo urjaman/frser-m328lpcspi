@@ -60,10 +60,7 @@ uint32_t spi_set_speed(uint32_t hz) {
 	}
 	spi_set_spd = spd;
 	if (spi_initialized) { // change speed
-		uint8_t spdv = pgm_read_byte(&(spd_table[spi_set_spd]));
-		SPCR = (SPCR & 0xFC) | (spdv & 0x3);
-		if (spdv&0x80) SPSR |= _BV(SPI2X);
-		else SPSR &= ~_BV(SPI2X);
+		spi_init(); // re-init
 	}
 	return hz_spd;
 }
@@ -80,9 +77,18 @@ void spi_deselect(void) {
 void spi_init(void) {
 	/* DDR and PORT settings come from flash.c */
 	uint8_t spdv = pgm_read_byte(&(spd_table[spi_set_spd]));
-	SPCR = (1<<SPE)|(1<<MSTR) | (spdv & 0x03);
+	SPCR = _BV(SPE) | _BV(MSTR) | (spdv & 0x03);
 	if (spdv&0x80) SPSR |= _BV(SPI2X);
 	else SPSR &= ~_BV(SPI2X);
+}
+
+uint8_t spi_uninit(void) {
+	if (spi_initialized) {
+		SPCR = 0;
+		spi_initialized = 0;
+		return 1;
+	}
+	return 0;
 }
 
 static uint8_t spi_txrx(const uint8_t c) {
@@ -98,15 +104,6 @@ void spi_init_cond(void) {
 		spi_init();
 		spi_initialized = 1;
 	}
-}
-
-uint8_t spi_uninit(void) {
-	if (spi_initialized) {
-		SPCR = 0;
-		spi_initialized = 0;
-		return 1;
-	}
-	return 0;
 }
 
 static void spi_localop_start(uint8_t sbytes, const uint8_t* sarr) {
