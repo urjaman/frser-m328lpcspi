@@ -101,10 +101,6 @@ bool fwh_write_address(uint32_t addr, uint8_t byte) {
 
 uint8_t fwh_test(void) {
 	nibble_hw_init();
-	DDRD |= _BV(2); //!RST
-	_delay_us(1);
-	DDRD &= ~_BV(2);
-	_delay_us(1); // slow pullup
 	fwh_init();
 	if (fwh_read_address(0xFFFFFFFF)==-1) return 0;
 	return 1;

@@ -141,5 +141,11 @@ void byte_write(uint8_t byte) {
 }
 
 void nibble_hw_init(void) {
-	/* Nothing needed, all PORT init in flash_portclear(). */
+	/* All PORT init in flash_portclear(). */
+
+	/* Kick reset here so lpc/fwh.c doesnt need to know about how it is controlled. */
+	DDRD |= _BV(2); //!RST
+	_delay_us(1);
+	DDRD &= ~_BV(2);
+	_delay_us(1); // slow pullup
 }
