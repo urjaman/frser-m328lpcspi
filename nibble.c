@@ -19,6 +19,9 @@
 #include "main.h"
 #include "nibble.h"
 
+#define delay() asm("nop")
+#define swap(x) do { asm volatile("swap %0" : "=r" (x) : "0" (x)); } while(0)
+
 
 
 #define FRAME_DDR			DDRD
@@ -118,26 +121,6 @@ void nibble_start(uint8_t start) {
 	nibble_write(start);
 	clock_cycle();
 	FRAME_PORT |= _BV(FRAME);
-}
-
-bool nibble_ready_sync(void) {
-	uint8_t nib;
-	uint8_t x=32;
-	do {
-		nib = clocked_nibble_read();
-		if (!(x--)) return false;
-	} while (nib != 0);
-	return true;
-}
-
-uint8_t byte_read(void) {
-	return clocked_nibble_read()
-	| (clocked_nibble_read() << 4);
-}
-
-void byte_write(uint8_t byte) {
-	clocked_nibble_write(byte);
-	clocked_nibble_write_hi(byte);
 }
 
 void nibble_hw_init(void) {

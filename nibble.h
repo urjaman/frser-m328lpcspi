@@ -27,7 +27,6 @@
 #define CLK				PD7
 
 
-#define delay() asm("nop")
 
 
 bool nibble_init();
@@ -36,14 +35,10 @@ void clocked_nibble_write(uint8_t value);
 void clocked_nibble_write_hi(uint8_t value);
 uint8_t clocked_nibble_read();
 void nibble_start(uint8_t start);
-bool nibble_ready_sync();
-uint8_t byte_read();
-void byte_write(uint8_t byte);
 void nibble_hw_init(void);
 void nibble_set_dir(uint8_t dir);
 uint8_t nibble_read(void);
 void nibble_write(uint8_t data);
 #define clock_cycle() do { CLK_PORT &= ~_BV(CLK); CLK_PORT |= _BV(CLK); } while(0)
-#define swap(x) do { asm volatile("swap %0" : "=r" (x) : "0" (x)); } while(0)
 
 #endif /* NIBBLE_H_ */
