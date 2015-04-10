@@ -26,9 +26,7 @@
 #include "flash.h"
 #include "ciface.h"
 #include "spilib.h"
-#include "lpc.h"
-#include "lpc.h"
-#include "fwh.h"
+#include "lpcfwh.h"
 #include "frser.h"
 
 /* This is for allowing the code to fit in 16k for the atmega168p. */

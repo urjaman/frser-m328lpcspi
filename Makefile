@@ -19,20 +19,26 @@
 ##
 
 PROJECT=frser-m328lpcspi
-DEPS=uart.h libfrser/udelay.h main.h lpc.h flash.h fwh.h nibble.h libfrser/frser.h frser-cfg.h libfrser/spilib.h libfrser/spihw_avrspi.h spihw.h spi_cs.h Makefile
+DEPS=uart.h main.h flash.h spi_cs.h Makefile
 CIFACE_SOURCES=ciface.c console.c lib.c appdb.c commands.c
-SOURCES=main.c uart.c flash.c libfrser/udelay.c libfrser/frser.c libfrser/spilib.c libfrser/spihw_avrspi.c lpc.c fwh.c nibble.c $(CIFACE_SOURCES)
+SOURCES=main.c uart.c flash.c $(CIFACE_SOURCES)
 CC=avr-gcc
 LD=avr-ld
 OBJCOPY=avr-objcopy
 MMCU=atmega328p
 SERIAL_DEV=/dev/ttyUSB0
 
+
+
 #AVRBINDIR=/usr/avr/bin/
 AVRDUDECMD=avrdude -p m328p -P $(SERIAL_DEV) -b 115200 -c arduino
 # If using avr-gcc < 4.6.0, replace -flto with -combine
-CFLAGS=-Ilibfrser -mmcu=$(MMCU) -O3 -Wl,--relax -fno-tree-switch-conversion -frename-registers -g -Wall -W -pipe -flto -flto-partition=none -fwhole-program -std=gnu99
+CFLAGS=-mmcu=$(MMCU) -O3 -Wl,--relax -fno-tree-switch-conversion -frename-registers -g -Wall -W -pipe -flto -flto-partition=none -fwhole-program -std=gnu99
 
+include libfrser/Makefile.frser
+include libfrser/Makefile.spilib
+include libfrser/Makefile.spihw_avrspi
+include libfrser/Makefile.lpcfwh
 
 all: $(PROJECT).out
 

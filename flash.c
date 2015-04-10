@@ -21,10 +21,9 @@
 #include "main.h"
 #include "flash.h"
 #include "uart.h"
-#include "lpc.h"
+#include "lpcfwh.h"
 #include "spilib.h"
 #include "frser.h"
-#include "fwh.h"
 #include "nibble.h"
 
 static uint8_t flash_prot_in_use=0;
