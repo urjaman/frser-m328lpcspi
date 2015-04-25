@@ -10,20 +10,20 @@
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
 <layer number="16" name="Bottom" color="1" fill="1" visible="yes" active="yes"/>
-<layer number="17" name="Pads" color="2" fill="1" visible="no" active="yes"/>
-<layer number="18" name="Vias" color="2" fill="1" visible="no" active="yes"/>
-<layer number="19" name="Unrouted" color="6" fill="1" visible="no" active="yes"/>
+<layer number="17" name="Pads" color="2" fill="1" visible="yes" active="yes"/>
+<layer number="18" name="Vias" color="2" fill="1" visible="yes" active="yes"/>
+<layer number="19" name="Unrouted" color="6" fill="1" visible="yes" active="yes"/>
 <layer number="20" name="Dimension" color="15" fill="1" visible="yes" active="yes"/>
 <layer number="21" name="tPlace" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="22" name="bPlace" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="23" name="tOrigins" color="15" fill="1" visible="no" active="yes"/>
-<layer number="24" name="bOrigins" color="15" fill="1" visible="no" active="yes"/>
+<layer number="23" name="tOrigins" color="15" fill="1" visible="yes" active="yes"/>
+<layer number="24" name="bOrigins" color="15" fill="1" visible="yes" active="yes"/>
 <layer number="25" name="tNames" color="7" fill="1" visible="no" active="yes"/>
 <layer number="26" name="bNames" color="7" fill="1" visible="no" active="yes"/>
 <layer number="27" name="tValues" color="7" fill="1" visible="no" active="yes"/>
 <layer number="28" name="bValues" color="7" fill="1" visible="no" active="yes"/>
-<layer number="29" name="tStop" color="7" fill="3" visible="yes" active="yes"/>
-<layer number="30" name="bStop" color="7" fill="6" visible="yes" active="yes"/>
+<layer number="29" name="tStop" color="7" fill="3" visible="no" active="yes"/>
+<layer number="30" name="bStop" color="7" fill="6" visible="no" active="yes"/>
 <layer number="31" name="tCream" color="7" fill="4" visible="no" active="yes"/>
 <layer number="32" name="bCream" color="7" fill="5" visible="no" active="yes"/>
 <layer number="33" name="tFinish" color="6" fill="3" visible="no" active="yes"/>
@@ -1869,107 +1869,107 @@ Please make sure your boards conform to these design rules.</description>
 </pass>
 </autorouter>
 <elements>
-<element name="PLCC32" library="ref-packages" package="PLCC-S32" value="" x="27.305" y="18.542"/>
+<element name="PLCC32" library="ref-packages" package="PLCC-S32" value="PLCC32" x="27.305" y="18.542"/>
 <element name="DIL8-SPI" library="ref-packages" package="DIL08" value="" x="27.305" y="40.132" smashed="yes" rot="R270">
 <attribute name="NAME" x="27.051" y="35.941" size="1.27" layer="25" ratio="10" rot="R90"/>
 <attribute name="VALUE" x="26.67" y="43.688" size="1.27" layer="27" ratio="10" rot="R270"/>
 </element>
-<element name="J1" library="SmartPrj" package="1X08-TH" value="" x="50.8" y="11.43" smashed="yes" rot="R90">
+<element name="DIGI_DN" library="SmartPrj" package="1X08-TH" value="" x="50.8" y="11.43" smashed="yes" rot="R90">
 <attribute name="VALUE" x="53.975" y="1.27" size="1.27" layer="27" rot="R90"/>
 </element>
 <element name="ANALOG" library="pinhead" package="1X06" value="" x="2.54" y="8.89" smashed="yes" rot="R270">
 <attribute name="NAME" x="1.27" y="16.891" size="1.016" layer="25" font="vector" ratio="15"/>
 <attribute name="VALUE" x="-0.635" y="16.51" size="1.27" layer="27" rot="R270"/>
 </element>
-<element name="J5" library="SmartPrj" package="1X08-TH" value="" x="48.26" y="11.43" smashed="yes" rot="R90">
+<element name="J4" library="SmartPrj" package="1X08-TH" value="" x="48.26" y="11.43" smashed="yes" rot="R90">
 <attribute name="VALUE" x="51.435" y="1.27" size="1.27" layer="27" rot="R90"/>
 </element>
-<element name="J6" library="pinhead" package="1X06" value="" x="5.08" y="8.89" smashed="yes" rot="R270">
+<element name="J3" library="pinhead" package="1X06" value="" x="5.08" y="8.89" smashed="yes" rot="R270">
 <attribute name="VALUE" x="1.905" y="16.51" size="1.27" layer="27" rot="R270"/>
 </element>
-<element name="POWER" library="SmartPrj" package="1X08-TH" value="" x="50.8" y="33.274" smashed="yes" rot="R270">
+<element name="DIGI_UP" library="SmartPrj" package="1X08-TH" value="" x="50.8" y="33.274" smashed="yes" rot="R270">
 <attribute name="VALUE" x="47.625" y="43.434" size="1.27" layer="27" rot="R270"/>
 </element>
-<element name="J7" library="pinhead" package="1X06" value="" x="5.08" y="26.67" smashed="yes" rot="R270">
+<element name="J1" library="pinhead" package="1X06" value="" x="5.08" y="26.67" smashed="yes" rot="R270">
 <attribute name="VALUE" x="1.905" y="34.29" size="1.27" layer="27" rot="R270"/>
 </element>
-<element name="ANALOG1" library="pinhead" package="1X06" value="" x="2.54" y="26.67" smashed="yes" rot="R270">
+<element name="POWER" library="pinhead" package="1X06" value="" x="2.54" y="26.67" smashed="yes" rot="R270">
 <attribute name="VALUE" x="-0.635" y="34.29" size="1.27" layer="27" rot="R270"/>
 </element>
-<element name="POWER1" library="SmartPrj" package="1X08-TH" value="" x="48.26" y="33.274" smashed="yes" rot="R270">
+<element name="J2" library="SmartPrj" package="1X08-TH" value="" x="48.26" y="33.274" smashed="yes" rot="R270">
 <attribute name="VALUE" x="45.085" y="43.434" size="1.27" layer="27" rot="R270"/>
 </element>
-<element name="E$2" library="rcl" package="0207/2V" value="4k7" x="25.4" y="3.937" smashed="yes" rot="R90">
+<element name="R10" library="rcl" package="0207/2V" value="4k7" x="25.4" y="3.937" smashed="yes" rot="R90">
 <attribute name="NAME" x="24.384" y="3.8862" size="1.27" layer="25" ratio="10" rot="R90"/>
 <attribute name="VALUE" x="24.8412" y="0.3048" size="1.27" layer="27" ratio="10"/>
 </element>
-<element name="E$3" library="rcl" package="0207/2V" value="4k7" x="38.862" y="2.54" smashed="yes">
+<element name="R15" library="rcl" package="0207/2V" value="4k7" x="38.862" y="2.54" smashed="yes">
 <attribute name="NAME" x="38.8112" y="3.556" size="1.27" layer="25" ratio="10"/>
 <attribute name="VALUE" x="38.1762" y="0.3048" size="1.27" layer="27" ratio="10"/>
 </element>
-<element name="E$4" library="rcl" package="0207/2V" value="2k2" x="38.862" y="5.08" smashed="yes">
+<element name="R14" library="rcl" package="0207/2V" value="2k2" x="38.862" y="5.08" smashed="yes">
 <attribute name="NAME" x="38.8112" y="6.096" size="1.27" layer="25" ratio="10"/>
 <attribute name="VALUE" x="39.4462" y="6.0198" size="1.27" layer="27" ratio="10"/>
 </element>
-<element name="E$5" library="rcl" package="0207/2V" value="4k7" x="28.575" y="3.937" smashed="yes" rot="R90">
+<element name="R11" library="rcl" package="0207/2V" value="4k7" x="28.575" y="3.937" smashed="yes" rot="R90">
 <attribute name="NAME" x="27.559" y="3.8862" size="1.27" layer="25" ratio="10" rot="R90"/>
 <attribute name="VALUE" x="28.6512" y="0.3048" size="1.27" layer="27" ratio="10"/>
 </element>
-<element name="E$7" library="rcl" package="0207/2V" value="4k7" x="32.893" y="2.54" smashed="yes" rot="R180">
+<element name="R13" library="rcl" package="0207/2V" value="4k7" x="32.893" y="2.54" smashed="yes" rot="R180">
 <attribute name="NAME" x="32.9438" y="1.524" size="1.27" layer="25" ratio="10" rot="R180"/>
 <attribute name="VALUE" x="32.4612" y="0.3048" size="1.27" layer="27" ratio="10"/>
 </element>
-<element name="E$8" library="rcl" package="0207/2V" value="2k2" x="33.147" y="5.08" smashed="yes">
+<element name="R12" library="rcl" package="0207/2V" value="2k2" x="33.147" y="5.08" smashed="yes">
 <attribute name="NAME" x="33.0962" y="6.096" size="1.27" layer="25" ratio="10"/>
 <attribute name="VALUE" x="30.8102" y="3.2512" size="1.27" layer="27" ratio="10" rot="R90"/>
 </element>
-<element name="E$9" library="rcl" package="0207/2V" value="4k7" x="17.145" y="42.672" rot="R90"/>
-<element name="E$11" library="rcl" package="0207/2V" value="4k7" x="38.735" y="37.592" smashed="yes" rot="R90">
+<element name="R1" library="rcl" package="0207/2V" value="4k7" x="17.145" y="42.672" rot="R90"/>
+<element name="R3" library="rcl" package="0207/2V" value="4k7" x="38.735" y="37.592" smashed="yes" rot="R90">
 <attribute name="NAME" x="37.719" y="37.5412" size="1.27" layer="25" ratio="10" rot="R90"/>
 <attribute name="VALUE" x="36.2712" y="33.3248" size="1.27" layer="27" ratio="10"/>
 </element>
-<element name="E$12" library="rcl" package="0207/2V" value="2k2" x="38.735" y="42.672" smashed="yes" rot="R90">
+<element name="R2" library="rcl" package="0207/2V" value="2k2" x="38.735" y="42.672" smashed="yes" rot="R90">
 <attribute name="NAME" x="37.719" y="42.6212" size="1.27" layer="25" ratio="10" rot="R90"/>
 <attribute name="VALUE" x="35.0012" y="40.9448" size="1.27" layer="27" ratio="10"/>
 </element>
-<element name="E$14" library="rcl" package="0207/2V" value="2k2" x="41.91" y="42.672" smashed="yes" rot="R90">
+<element name="R4" library="rcl" package="0207/2V" value="2k2" x="41.91" y="42.672" smashed="yes" rot="R90">
 <attribute name="NAME" x="40.894" y="42.6212" size="1.27" layer="25" ratio="10" rot="R90"/>
 <attribute name="VALUE" x="43.2562" y="40.9448" size="1.27" layer="27" ratio="10"/>
 </element>
-<element name="E$16" library="rcl" package="0207/2V" value="4k7" x="41.91" y="37.592" smashed="yes" rot="R90">
+<element name="R5" library="rcl" package="0207/2V" value="4k7" x="41.91" y="37.592" smashed="yes" rot="R90">
 <attribute name="NAME" x="40.894" y="37.5412" size="1.27" layer="25" ratio="10" rot="R90"/>
 <attribute name="VALUE" x="40.0812" y="33.3248" size="1.27" layer="27" ratio="10"/>
 </element>
-<element name="E$18" library="rcl" package="0207/2V" value="2k2" x="22.225" y="3.937" smashed="yes" rot="R90">
+<element name="R9" library="rcl" package="0207/2V" value="2k2" x="22.225" y="3.937" smashed="yes" rot="R90">
 <attribute name="NAME" x="21.209" y="3.8862" size="1.27" layer="25" ratio="10" rot="R90"/>
 <attribute name="VALUE" x="21.0312" y="0.3048" size="1.27" layer="27" ratio="10"/>
 </element>
-<element name="E$20" library="rcl" package="0207/2V" value="2k2" x="19.05" y="3.937" smashed="yes" rot="R90">
+<element name="R8" library="rcl" package="0207/2V" value="2k2" x="19.05" y="3.937" smashed="yes" rot="R90">
 <attribute name="NAME" x="18.034" y="3.8862" size="1.27" layer="25" ratio="10" rot="R90"/>
 <attribute name="VALUE" x="17.2212" y="0.3048" size="1.27" layer="27" ratio="10"/>
 </element>
-<element name="E$21" library="rcl" package="0207/2V" value="2k2" x="15.875" y="3.937" smashed="yes" rot="R90">
+<element name="R7" library="rcl" package="0207/2V" value="2k2" x="15.875" y="3.937" smashed="yes" rot="R90">
 <attribute name="NAME" x="14.859" y="3.8862" size="1.27" layer="25" ratio="10" rot="R90"/>
 <attribute name="VALUE" x="13.4112" y="0.3048" size="1.27" layer="27" ratio="10"/>
 </element>
-<element name="E$24" library="rcl" package="0207/2V" value="2k2" x="12.7" y="3.937" smashed="yes" rot="R90">
+<element name="R6" library="rcl" package="0207/2V" value="2k2" x="12.7" y="3.937" smashed="yes" rot="R90">
 <attribute name="NAME" x="11.684" y="3.8862" size="1.27" layer="25" ratio="10" rot="R90"/>
 <attribute name="VALUE" x="9.6012" y="0.3048" size="1.27" layer="27" ratio="10"/>
 </element>
-<element name="E$25" library="rcl" package="C025-025X050" value="1u" x="27.305" y="31.75" rot="R180"/>
-<element name="S2" library="switch-omron" package="B3F-10XX" value="B2" x="14.605" y="29.21" rot="R90"/>
+<element name="C1" library="rcl" package="C025-025X050" value="1u" x="27.305" y="31.75" rot="R180"/>
+<element name="RESET" library="switch-omron" package="B3F-10XX" value="" x="14.605" y="29.21" rot="R90"/>
 </elements>
 <signals>
-<signal name="S$1">
-<contactref element="J6" pad="6"/>
+<signal name="PC5">
+<contactref element="J3" pad="6"/>
 <contactref element="ANALOG" pad="6"/>
 <wire x1="5.08" y1="2.54" x2="2.54" y2="2.54" width="0.254" layer="1"/>
 </signal>
-<signal name="N$13">
+<signal name="LPCD0">
 <contactref element="PLCC32" pad="13"/>
-<contactref element="E$24" pad="2"/>
+<contactref element="R6" pad="2"/>
 <contactref element="ANALOG" pad="1"/>
-<contactref element="J6" pad="1"/>
+<contactref element="J3" pad="1"/>
 <wire x1="5.08" y1="15.24" x2="2.54" y2="15.24" width="0.254" layer="1"/>
 <wire x1="20.828" y1="13.462" x2="13.97" y2="6.604" width="0.254" layer="1"/>
 <wire x1="13.97" y1="6.604" x2="12.7" y2="5.334" width="0.254" layer="1"/>
@@ -1978,15 +1978,15 @@ Please make sure your boards conform to these design rules.</description>
 <wire x1="13.716" y1="6.604" x2="5.08" y2="15.24" width="0.254" layer="1"/>
 <wire x1="13.97" y1="6.604" x2="13.716" y2="6.604" width="0.254" layer="1"/>
 </signal>
-<signal name="S$2">
-<contactref element="J6" pad="5"/>
+<signal name="PC4">
+<contactref element="J3" pad="5"/>
 <contactref element="ANALOG" pad="5"/>
 <wire x1="5.08" y1="5.08" x2="2.54" y2="5.08" width="0.254" layer="1"/>
 </signal>
-<signal name="N$14">
+<signal name="LPCD1">
 <contactref element="PLCC32" pad="14"/>
-<contactref element="E$21" pad="2"/>
-<contactref element="J6" pad="2"/>
+<contactref element="R7" pad="2"/>
+<contactref element="J3" pad="2"/>
 <contactref element="ANALOG" pad="2"/>
 <wire x1="5.08" y1="12.7" x2="2.54" y2="12.7" width="0.254" layer="1"/>
 <wire x1="17.78" y1="5.334" x2="16.002" y2="5.334" width="0.254" layer="16"/>
@@ -1997,10 +1997,10 @@ Please make sure your boards conform to these design rules.</description>
 <wire x1="15.748" y1="5.334" x2="8.382" y2="12.7" width="0.254" layer="16"/>
 <wire x1="15.748" y1="5.334" x2="15.875" y2="5.207" width="0.254" layer="16"/>
 </signal>
-<signal name="N$15">
+<signal name="LPCD2">
 <contactref element="PLCC32" pad="15"/>
-<contactref element="E$20" pad="2"/>
-<contactref element="J6" pad="3"/>
+<contactref element="R8" pad="2"/>
+<contactref element="J3" pad="3"/>
 <contactref element="ANALOG" pad="3"/>
 <wire x1="5.08" y1="10.16" x2="2.54" y2="10.16" width="0.254" layer="1"/>
 <wire x1="19.05" y1="9.144" x2="19.05" y2="5.334" width="0.254" layer="1"/>
@@ -2020,17 +2020,17 @@ Please make sure your boards conform to these design rules.</description>
 <contactref element="PLCC32" pad="7"/>
 <contactref element="PLCC32" pad="25"/>
 <contactref element="PLCC32" pad="32"/>
-<contactref element="J7" pad="2"/>
-<contactref element="ANALOG1" pad="2"/>
+<contactref element="J1" pad="2"/>
+<contactref element="POWER" pad="2"/>
 <contactref element="PLCC32" pad="8"/>
-<contactref element="E$25" pad="1"/>
-<contactref element="E$9" pad="1"/>
-<contactref element="E$24" pad="1"/>
-<contactref element="E$21" pad="1"/>
-<contactref element="E$20" pad="1"/>
-<contactref element="E$18" pad="1"/>
-<contactref element="E$2" pad="1"/>
-<contactref element="E$5" pad="1"/>
+<contactref element="C1" pad="1"/>
+<contactref element="R1" pad="1"/>
+<contactref element="R6" pad="1"/>
+<contactref element="R7" pad="1"/>
+<contactref element="R8" pad="1"/>
+<contactref element="R9" pad="1"/>
+<contactref element="R10" pad="1"/>
+<contactref element="R11" pad="1"/>
 <wire x1="5.08" y1="30.48" x2="2.54" y2="30.48" width="0.254" layer="1"/>
 <wire x1="31.877" y1="43.307" x2="31.877" y2="42.037" width="0.254" layer="1"/>
 <wire x1="31.877" y1="42.037" x2="31.115" y2="41.402" width="0.254" layer="1"/>
@@ -2093,8 +2093,8 @@ Please make sure your boards conform to these design rules.</description>
 <wire x1="17.145" y1="41.402" x2="17.145" y2="38.862" width="0.254" layer="1"/>
 </signal>
 <signal name="SCLK">
-<contactref element="E$16" pad="2"/>
-<contactref element="E$14" pad="1"/>
+<contactref element="R5" pad="2"/>
+<contactref element="R4" pad="1"/>
 <contactref element="DIL8-SPI" pad="6"/>
 <wire x1="36.703" y1="38.862" x2="31.242" y2="38.862" width="0.254" layer="16"/>
 <wire x1="37.719" y1="39.878" x2="36.703" y2="38.862" width="0.254" layer="16"/>
@@ -2106,8 +2106,8 @@ Please make sure your boards conform to these design rules.</description>
 </signal>
 <signal name="LCLK_">
 <contactref element="PLCC32" pad="31"/>
-<contactref element="E$8" pad="1"/>
-<contactref element="E$7" pad="2"/>
+<contactref element="R12" pad="1"/>
+<contactref element="R13" pad="2"/>
 <wire x1="31.75" y1="5.08" x2="31.75" y2="2.54" width="0.254" layer="1"/>
 <wire x1="31.75" y1="2.54" x2="31.623" y2="2.54" width="0.254" layer="1"/>
 <wire x1="31.75" y1="5.08" x2="31.877" y2="5.08" width="0.254" layer="1"/>
@@ -2122,8 +2122,8 @@ Please make sure your boards conform to these design rules.</description>
 </signal>
 <signal name="LFRAME_">
 <contactref element="PLCC32" pad="23"/>
-<contactref element="E$4" pad="1"/>
-<contactref element="E$3" pad="2"/>
+<contactref element="R14" pad="1"/>
+<contactref element="R15" pad="2"/>
 <wire x1="40.132" y1="2.54" x2="37.592" y2="5.08" width="0.254" layer="1"/>
 <wire x1="37.592" y1="12.192" x2="33.782" y2="16.002" width="0.254" layer="1"/>
 <wire x1="37.592" y1="5.08" x2="37.592" y2="12.192" width="0.254" layer="1"/>
@@ -2132,16 +2132,16 @@ Please make sure your boards conform to these design rules.</description>
 <signal name="GND">
 <contactref element="PLCC32" pad="16"/>
 <contactref element="PLCC32" pad="28"/>
-<contactref element="E$16" pad="1"/>
-<contactref element="POWER1" pad="2"/>
-<contactref element="E$11" pad="1"/>
-<contactref element="E$7" pad="1"/>
-<contactref element="E$3" pad="1"/>
-<contactref element="POWER" pad="2"/>
-<contactref element="J7" pad="5"/>
-<contactref element="ANALOG1" pad="5"/>
-<contactref element="ANALOG1" pad="4"/>
-<contactref element="J7" pad="4"/>
+<contactref element="R5" pad="1"/>
+<contactref element="J2" pad="2"/>
+<contactref element="R3" pad="1"/>
+<contactref element="R13" pad="1"/>
+<contactref element="R15" pad="1"/>
+<contactref element="DIGI_UP" pad="2"/>
+<contactref element="J1" pad="5"/>
+<contactref element="POWER" pad="5"/>
+<contactref element="POWER" pad="4"/>
+<contactref element="J1" pad="4"/>
 <contactref element="PLCC32" pad="3"/>
 <contactref element="PLCC32" pad="4"/>
 <contactref element="PLCC32" pad="5"/>
@@ -2152,7 +2152,7 @@ Please make sure your boards conform to these design rules.</description>
 <contactref element="PLCC32" pad="12"/>
 <contactref element="PLCC32" pad="29"/>
 <contactref element="PLCC32" pad="30"/>
-<contactref element="E$25" pad="2"/>
+<contactref element="C1" pad="2"/>
 <contactref element="DIL8-SPI" pad="4"/>
 <wire x1="37.592" y1="2.54" x2="34.29" y2="2.54" width="0.254" layer="1"/>
 <wire x1="34.29" y1="2.54" x2="34.163" y2="2.54" width="0.254" layer="1"/>
@@ -2227,7 +2227,7 @@ Please make sure your boards conform to these design rules.</description>
 <wire x1="19.812" y1="20.828" x2="20.828" y2="19.812" width="0.254" layer="1"/>
 <wire x1="19.812" y1="22.86" x2="19.812" y2="20.828" width="0.254" layer="1"/>
 <wire x1="20.828" y1="18.542" x2="20.955" y2="18.542" width="0.254" layer="1"/>
-<contactref element="S2" pad="1"/>
+<contactref element="RESET" pad="1"/>
 <wire x1="5.08" y1="25.4" x2="11.7856" y2="25.4" width="0.254" layer="1"/>
 <wire x1="11.7856" y1="25.4" x2="12.3444" y2="25.9588" width="0.254" layer="1"/>
 <wire x1="5.08" y1="25.4" x2="5.08" y2="22.86" width="0.254" layer="1"/>
@@ -2277,22 +2277,22 @@ Please make sure your boards conform to these design rules.</description>
 <vertex x="1.778" y="35.052"/>
 <vertex x="0" y="33.274"/>
 </polygon>
-<contactref element="S2" pad="3"/>
+<contactref element="RESET" pad="3"/>
 </signal>
-<signal name="N$16">
-<contactref element="J1" pad="1"/>
-<contactref element="J5" pad="1"/>
+<signal name="PD0">
+<contactref element="DIGI_DN" pad="1"/>
+<contactref element="J4" pad="1"/>
 <wire x1="50.8" y1="2.54" x2="48.26" y2="2.54" width="0.254" layer="1"/>
 </signal>
-<signal name="N$29">
-<contactref element="J1" pad="2"/>
-<contactref element="J5" pad="2"/>
+<signal name="PD1">
+<contactref element="DIGI_DN" pad="2"/>
+<contactref element="J4" pad="2"/>
 <wire x1="50.8" y1="5.08" x2="48.26" y2="5.08" width="0.254" layer="1"/>
 </signal>
 <signal name="LRST">
-<contactref element="J1" pad="3"/>
-<contactref element="J5" pad="3"/>
-<contactref element="E$2" pad="2"/>
+<contactref element="DIGI_DN" pad="3"/>
+<contactref element="J4" pad="3"/>
+<contactref element="R10" pad="2"/>
 <contactref element="PLCC32" pad="2"/>
 <wire x1="27.178" y1="5.08" x2="25.4" y2="5.08" width="0.254" layer="16"/>
 <wire x1="28.194" y1="4.064" x2="27.178" y2="5.08" width="0.254" layer="16"/>
@@ -2315,17 +2315,17 @@ Please make sure your boards conform to these design rules.</description>
 <wire x1="48.26" y1="7.62" x2="50.8" y2="7.62" width="0.254" layer="1"/>
 </signal>
 <signal name="FRAME">
-<contactref element="J1" pad="4"/>
-<contactref element="J5" pad="4"/>
-<contactref element="E$4" pad="2"/>
+<contactref element="DIGI_DN" pad="4"/>
+<contactref element="J4" pad="4"/>
+<contactref element="R14" pad="2"/>
 <wire x1="43.18" y1="5.08" x2="40.132" y2="5.08" width="0.254" layer="1"/>
 <wire x1="48.26" y1="10.16" x2="43.18" y2="5.08" width="0.254" layer="1"/>
 <wire x1="48.26" y1="10.16" x2="50.8" y2="10.16" width="0.254" layer="1"/>
 </signal>
 <signal name="INIT">
-<contactref element="J1" pad="5"/>
-<contactref element="J5" pad="5"/>
-<contactref element="E$5" pad="2"/>
+<contactref element="DIGI_DN" pad="5"/>
+<contactref element="J4" pad="5"/>
+<contactref element="R11" pad="2"/>
 <contactref element="PLCC32" pad="24"/>
 <wire x1="50.8" y1="12.7" x2="48.26" y2="12.7" width="0.254" layer="1"/>
 <wire x1="28.702" y1="9.652" x2="28.702" y2="5.334" width="0.254" layer="16"/>
@@ -2340,29 +2340,29 @@ Please make sure your boards conform to these design rules.</description>
 <wire x1="31.242" y1="16.002" x2="32.512" y2="17.272" width="0.254" layer="1"/>
 <wire x1="31.242" y1="16.002" x2="31.115" y2="16.002" width="0.254" layer="1"/>
 </signal>
-<signal name="N$34">
-<contactref element="J1" pad="6"/>
-<contactref element="J5" pad="6"/>
+<signal name="PD5">
+<contactref element="DIGI_DN" pad="6"/>
+<contactref element="J4" pad="6"/>
 <wire x1="50.8" y1="15.24" x2="48.26" y2="15.24" width="0.254" layer="1"/>
 </signal>
-<signal name="N$35">
-<contactref element="J1" pad="7"/>
-<contactref element="J5" pad="7"/>
+<signal name="PD6">
+<contactref element="DIGI_DN" pad="7"/>
+<contactref element="J4" pad="7"/>
 <wire x1="50.8" y1="17.78" x2="48.26" y2="17.78" width="0.254" layer="1"/>
 </signal>
 <signal name="LCLK">
-<contactref element="J1" pad="8"/>
-<contactref element="J5" pad="8"/>
-<contactref element="E$8" pad="2"/>
+<contactref element="DIGI_DN" pad="8"/>
+<contactref element="J4" pad="8"/>
+<contactref element="R12" pad="2"/>
 <wire x1="34.544" y1="6.604" x2="34.544" y2="5.08" width="0.254" layer="16"/>
 <wire x1="48.26" y1="20.32" x2="34.544" y2="6.604" width="0.254" layer="16"/>
 <wire x1="34.544" y1="5.08" x2="34.417" y2="5.08" width="0.254" layer="16"/>
 <wire x1="48.26" y1="20.32" x2="50.8" y2="20.32" width="0.254" layer="1"/>
 </signal>
-<signal name="N$39">
-<contactref element="E$18" pad="2"/>
+<signal name="LPCD3">
+<contactref element="R9" pad="2"/>
 <contactref element="PLCC32" pad="17"/>
-<contactref element="J6" pad="4"/>
+<contactref element="J3" pad="4"/>
 <contactref element="ANALOG" pad="4"/>
 <wire x1="5.08" y1="7.62" x2="2.54" y2="7.62" width="0.254" layer="1"/>
 <wire x1="22.352" y1="8.382" x2="22.352" y2="5.334" width="0.254" layer="1"/>
@@ -2381,8 +2381,8 @@ Please make sure your boards conform to these design rules.</description>
 </signal>
 <signal name="SDO">
 <contactref element="DIL8-SPI" pad="2"/>
-<contactref element="POWER1" pad="4"/>
-<contactref element="POWER" pad="4"/>
+<contactref element="J2" pad="4"/>
+<contactref element="DIGI_UP" pad="4"/>
 <wire x1="23.368" y1="40.894" x2="23.368" y2="41.402" width="0.254" layer="16"/>
 <wire x1="21.844" y1="39.37" x2="23.368" y2="40.894" width="0.254" layer="16"/>
 <wire x1="21.844" y1="38.354" x2="21.844" y2="39.37" width="0.254" layer="16"/>
@@ -2398,8 +2398,8 @@ Please make sure your boards conform to these design rules.</description>
 <wire x1="48.26" y1="34.544" x2="50.8" y2="34.544" width="0.254" layer="1"/>
 </signal>
 <signal name="SDI">
-<contactref element="E$12" pad="1"/>
-<contactref element="E$11" pad="2"/>
+<contactref element="R2" pad="1"/>
+<contactref element="R3" pad="2"/>
 <contactref element="DIL8-SPI" pad="5"/>
 <wire x1="36.068" y1="36.322" x2="31.242" y2="36.322" width="0.254" layer="16"/>
 <wire x1="38.608" y1="38.862" x2="36.068" y2="36.322" width="0.254" layer="16"/>
@@ -2409,18 +2409,18 @@ Please make sure your boards conform to these design rules.</description>
 <wire x1="38.862" y1="41.402" x2="38.735" y2="41.402" width="0.254" layer="1"/>
 <wire x1="38.862" y1="38.862" x2="38.735" y2="38.862" width="0.254" layer="1"/>
 </signal>
-<signal name="S$24">
-<contactref element="POWER1" pad="3"/>
-<contactref element="E$14" pad="2"/>
-<contactref element="POWER" pad="3"/>
+<signal name="HSCLK">
+<contactref element="J2" pad="3"/>
+<contactref element="R4" pad="2"/>
+<contactref element="DIGI_UP" pad="3"/>
 <wire x1="41.91" y1="43.434" x2="41.91" y2="43.942" width="0.254" layer="1"/>
 <wire x1="48.26" y1="37.084" x2="41.91" y2="43.434" width="0.254" layer="1"/>
 <wire x1="48.26" y1="37.084" x2="50.8" y2="37.084" width="0.254" layer="1"/>
 </signal>
-<signal name="S$26">
-<contactref element="POWER1" pad="5"/>
-<contactref element="E$12" pad="2"/>
-<contactref element="POWER" pad="5"/>
+<signal name="HSDI">
+<contactref element="J2" pad="5"/>
+<contactref element="R2" pad="2"/>
+<contactref element="DIGI_UP" pad="5"/>
 <wire x1="38.862" y1="42.926" x2="38.862" y2="43.942" width="0.254" layer="1"/>
 <wire x1="41.91" y1="39.878" x2="38.862" y2="42.926" width="0.254" layer="1"/>
 <wire x1="42.418" y1="39.878" x2="41.91" y2="39.878" width="0.254" layer="1"/>
@@ -2431,10 +2431,10 @@ Please make sure your boards conform to these design rules.</description>
 <wire x1="48.26" y1="32.004" x2="50.8" y2="32.004" width="0.254" layer="1"/>
 </signal>
 <signal name="SCS">
-<contactref element="POWER1" pad="8"/>
-<contactref element="POWER" pad="8"/>
+<contactref element="J2" pad="8"/>
+<contactref element="DIGI_UP" pad="8"/>
 <contactref element="DIL8-SPI" pad="1"/>
-<contactref element="E$9" pad="2"/>
+<contactref element="R1" pad="2"/>
 <wire x1="50.8" y1="24.384" x2="48.26" y2="24.384" width="0.254" layer="1"/>
 <wire x1="23.368" y1="43.942" x2="17.145" y2="43.942" width="0.254" layer="1"/>
 <wire x1="23.368" y1="43.942" x2="23.495" y2="43.942" width="0.254" layer="1"/>
@@ -2444,38 +2444,38 @@ Please make sure your boards conform to these design rules.</description>
 <wire x1="25.908" y1="43.942" x2="28.448" y2="40.132" width="0.254" layer="1"/>
 <wire x1="25.908" y1="43.942" x2="23.495" y2="43.942" width="0.254" layer="1"/>
 </signal>
-<signal name="S$7">
-<contactref element="POWER" pad="1"/>
-<contactref element="POWER1" pad="1"/>
-<wire x1="50.8" y1="42.164" x2="48.26" y2="42.164" width="0.254" layer="1"/>
-</signal>
-<signal name="S$8">
-<contactref element="POWER" pad="6"/>
-<contactref element="POWER1" pad="6"/>
+<signal name="PB2">
+<contactref element="DIGI_UP" pad="6"/>
+<contactref element="J2" pad="6"/>
 <wire x1="50.8" y1="29.464" x2="48.26" y2="29.464" width="0.254" layer="1"/>
 </signal>
-<signal name="S$9">
-<contactref element="POWER" pad="7"/>
-<contactref element="POWER1" pad="7"/>
+<signal name="PB1">
+<contactref element="DIGI_UP" pad="7"/>
+<contactref element="J2" pad="7"/>
 <wire x1="50.8" y1="26.924" x2="48.26" y2="26.924" width="0.254" layer="1"/>
 </signal>
-<signal name="S$10">
-<contactref element="ANALOG1" pad="6"/>
-<contactref element="J7" pad="6"/>
+<signal name="VIN">
+<contactref element="POWER" pad="6"/>
+<contactref element="J1" pad="6"/>
 <wire x1="5.08" y1="20.32" x2="2.54" y2="20.32" width="0.254" layer="1"/>
 </signal>
-<signal name="S$12">
-<contactref element="ANALOG1" pad="3"/>
-<contactref element="J7" pad="3"/>
+<signal name="5V0">
+<contactref element="POWER" pad="3"/>
+<contactref element="J1" pad="3"/>
 <wire x1="5.08" y1="27.94" x2="2.54" y2="27.94" width="0.254" layer="1"/>
 </signal>
-<signal name="S$13">
-<contactref element="ANALOG1" pad="1"/>
-<contactref element="J7" pad="1"/>
+<signal name="RESET">
+<contactref element="POWER" pad="1"/>
+<contactref element="J1" pad="1"/>
 <wire x1="5.08" y1="33.02" x2="2.54" y2="33.02" width="0.254" layer="1"/>
-<contactref element="S2" pad="2"/>
+<contactref element="RESET" pad="2"/>
 <wire x1="12.3444" y1="32.4612" x2="11.7856" y2="33.02" width="0.254" layer="16"/>
 <wire x1="11.7856" y1="33.02" x2="5.08" y2="33.02" width="0.254" layer="16"/>
+</signal>
+<signal name="AREF">
+<contactref element="J2" pad="1"/>
+<contactref element="DIGI_UP" pad="1"/>
+<wire x1="48.26" y1="42.164" x2="50.8" y2="42.164" width="0.254" layer="1"/>
 </signal>
 </signals>
 <errors>

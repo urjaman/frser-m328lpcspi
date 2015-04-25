@@ -1,4 +1,7 @@
-There's no schematic, it was done in EAGLE board editor.
+There was no schematic, it was done in EAGLE board editor,
+but now i made a schematic just so you can see the connections...
+Because apparently people cant read a board :| .
+Also exported a schematic.png
 
 The basic connections can be gleaned from flash.c
 or with EAGLE and also the resistor values can be had from
