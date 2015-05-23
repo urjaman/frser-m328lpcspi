@@ -46,16 +46,14 @@ uint8_t nibble_read(void) {
 }
 
 static void nibble_write_hi(uint8_t data) {
+	data = ~data;
 	swap(data);
-	DDRC = (~data) & 0xF;
-//	data &= 0xF;
-//	while ((PINC & 0xF) != data);
+	DDRC = data & 0xF;
 }
 
 void nibble_write(uint8_t data) {
-	DDRC = (~data) & 0xF;
-//	data &= 0xF;
-//	while ((PINC & 0xF) != data);
+	data = ~data;
+	DDRC = data & 0xF;
 }
 
 #define clock_low() do { CLK_PORT &= ~_BV(CLK); } while(0)
