@@ -26,7 +26,7 @@ CC=avr-gcc
 LD=avr-ld
 OBJCOPY=avr-objcopy
 MMCU=atmega328p
-SERIAL_DEV=/dev/ttyUSB0
+SERIAL_DEV ?= /dev/ttyUSB0
 
 
 
