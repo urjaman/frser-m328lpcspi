@@ -39,8 +39,10 @@ static utxbufoff_t volatile uart_sndrptr;
 #endif
 
 ISR(USART_RX_vect) {
+	uint8_t d = UDR0;
 	urxbufoff_t reg = uart_rcvwptr;
-	uart_rcvbuf[reg++] = UDR0;
+	uart_rcvbuf[reg] = d;
+	reg++;
 	if(reg==UART_BUFLEN) reg = 0;
 	uart_rcvwptr = reg;
 }
