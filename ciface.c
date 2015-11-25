@@ -33,6 +33,7 @@ unsigned char token_count;
 unsigned char* tokenptrs[MAXTOKENS] __attribute__((aligned(16)));
 
 
+//void ciface_main(void) __attribute__((noinline));
 void ciface_main(void) {
 	void(*func)(void);
 	for (;;) {

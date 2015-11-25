@@ -28,6 +28,8 @@
 #include "spilib.h"
 #include "lpcfwh.h"
 #include "frser.h"
+#include "frser-cfg.h"
+#include "dxprint.h"
 
 /* This is for allowing the code to fit in 16k for the atmega168p. */
 /* We optimize all of the unnecessary crap in Os instead of -O3 :P */
@@ -211,6 +213,7 @@ void flash_readsect_cmd(void) {
 	if (strlen((char*)tokenptrs[1]) != 4) return;
 	addr = (((unsigned long int)xstr2uchar(tokenptrs[1]))<<16);
 	addr |= (((unsigned long int)xstr2uchar((tokenptrs[1]+2)))<<8);
+	addr |= 0xFF000000;
 	i=0;
 	while(1) {
 		d = flash_read(addr|i);
@@ -353,6 +356,35 @@ void flash_sproto_cmd(void)
 		}
 	}
 	flash_select_protocol(p);
+}
+
+#ifdef FRSER_FEAT_DPRINTF
+static uint8_t l = 0;
+static uint8_t rl = 0;
+void dbgout_test(uint8_t d) {
+	if (!l) {
+		l = d;
+	} else {
+		SEND(d);
+		rl++;
+	}
+}
+#endif
+
+void dbg_out_cmd(void) {
+#ifdef FRSER_FEAT_DPRINTF
+	do {
+		l = 0;
+		rl = 0;
+		dxprint_tx(dbgout_test);
+		if (l != rl) {
+			sendstr_P(PSTR("dxprint bug: len "));
+			luint2outdual(l);
+			sendstr_P(PSTR("vs real "));
+			luint2outdual(rl);
+		}
+	} while (l);
+#endif
 }
 
 #pragma GCC reset_options

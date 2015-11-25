@@ -31,4 +31,7 @@
  * rest of the system, define this. Default is below. Not needed for SPI-only flashers. */
 //#define FRSER_SYS_BYTES 320
 
+
+//#define FRSER_FEAT_DPRINTF
+
 #endif
