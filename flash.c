@@ -114,7 +114,6 @@ uint8_t flash_read(uint32_t addr) {
 }
 
 void flash_readn(uint32_t addr, uint32_t len) {
-	if (len==0) len = ((uint32_t)1<<24);
 	switch (flash_prot_in_use) {
 		case 0:
 		default:
