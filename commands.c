@@ -28,6 +28,7 @@
 #include "spilib.h"
 #include "lpcfwh.h"
 #include "frser.h"
+#include "nibble.h"
 
 /* This is for allowing the code to fit in 16k for the atmega168p. */
 /* We optimize all of the unnecessary crap in Os instead of -O3 :P */
@@ -353,6 +354,63 @@ void flash_sproto_cmd(void)
 		}
 	}
 	flash_select_protocol(p);
+}
+
+static uint8_t lpc_pin_test_state = 0;
+void lpc_pin_test_cmd(void)
+{
+	if (flash_get_proto()&(CHIP_BUSTYPE_LPC|CHIP_BUSTYPE_FWH)) {
+		flash_select_protocol(0);
+		sendstr_P(PSTR("-> REENABLE BUS WITH SPROTO <-"));
+		sendcrlf();
+		sendcrlf();
+	}
+	switch (lpc_pin_test_state) {
+	case 0:
+		sendstr_P(PSTR("pin 2 RST slow pullup to 3V"));
+		RST_DDR &= ~_BV(RST);
+
+		sendcrlf();
+		sendstr_P(PSTR("pin 23 FRAME driven, divided to 3V"));
+		FRAME_DDR |= _BV(FRAME);
+		FRAME_PORT |= _BV(FRAME);
+
+		sendcrlf();
+		sendstr_P(PSTR("pin 24 INIT slow pullup to 3V"));
+		INIT_DDR &= ~_BV(INIT);
+
+		sendcrlf();
+		sendstr_P(PSTR("pin 31 CLK driven, divided to 3V"));
+		CLK_DDR |= _BV(CLK);
+		CLK_PORT |= _BV(CLK);
+
+		sendcrlf();
+		sendstr_P(PSTR("pins 13,14,15,17 NIBBLE pullup to 3V"));
+		NIBBLE_DDR = 0;
+
+		lpc_pin_test_state = 1;
+		break;
+
+	case 1:
+		sendstr_P(PSTR("RST FRAME INIT CLK NIBBLE driven 0V"));
+		RST_DDR |= _BV(RST);
+		RST_PORT &= ~_BV(RST);
+		FRAME_DDR |= _BV(FRAME);
+		FRAME_PORT &= ~_BV(FRAME);
+		INIT_DDR |= _BV(INIT);
+		INIT_PORT &= ~_BV(INIT);
+		CLK_DDR |= _BV(CLK);
+		CLK_PORT &= ~_BV(CLK);
+		NIBBLE_DDR = 0xF;
+
+		sendcrlf();
+		sendstr_P(PSTR("pins 3-6,9-12,16,28-30 GND wired 0V"));
+		sendcrlf();
+		sendstr_P(PSTR("pins 7,8,25,32 3V3 wired 3V"));
+
+	default:
+		lpc_pin_test_state = 0;
+	}
 }
 
 #pragma GCC reset_options

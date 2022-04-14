@@ -22,12 +22,25 @@
 #define OUTPUT 1
 #define INPUT 0
 
+#define RST_DDR				DDRD
+#define RST_PORT			PORTD
+#define RST				PD2
+
+#define FRAME_DDR			DDRD
+#define FRAME_PORT			PORTD
+#define FRAME				PD3
+
+#define INIT_DDR			DDRD
+#define INIT_PORT			PORTD
+#define INIT				PD4
+
 #define CLK_DDR				DDRD
 #define CLK_PORT			PORTD
 #define CLK				PD7
 
-
-
+#define NIBBLE_DDR			DDRC
+#define NIBBLE_PORT			PORTC
+#define NIBBLE_PIN			PINC
 
 bool nibble_init();
 void nibble_cleanup();
