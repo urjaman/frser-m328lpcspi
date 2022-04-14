@@ -23,39 +23,29 @@
 #define swap(x) do { asm volatile("swap %0" : "=r" (x) : "0" (x)); } while(0)
 
 
-
-#define FRAME_DDR			DDRD
-#define FRAME_PORT			PORTD
-#define FRAME				PD3
-
-
-#define INIT_DDR			DDRD
-#define INIT_PORT			PORTD
-#define INIT				PD4
-
 void nibble_set_dir(uint8_t dir) {
 	if (!dir) {
-		DDRC = 0;
+		NIBBLE_DDR = 0;
 	}
 }
 
 uint8_t nibble_read(void) {
 	uint8_t rv;
-	rv = PINC & 0xF;
+	rv = NIBBLE_PIN & 0xF;
 	return rv;
 }
 
 static void nibble_write_hi(uint8_t data) {
 	swap(data);
-	DDRC = (~data) & 0xF;
+	NIBBLE_DDR = (~data) & 0xF;
 //	data &= 0xF;
-//	while ((PINC & 0xF) != data);
+//	while ((NIBBLE_PIN & 0xF) != data);
 }
 
 void nibble_write(uint8_t data) {
-	DDRC = (~data) & 0xF;
+	NIBBLE_DDR = (~data) & 0xF;
 //	data &= 0xF;
-//	while ((PINC & 0xF) != data);
+//	while ((NIBBLE_PIN & 0xF) != data);
 }
 
 #define clock_low() do { CLK_PORT &= ~_BV(CLK); } while(0)
@@ -127,8 +117,9 @@ void nibble_hw_init(void) {
 	/* All PORT init in flash_portclear(). */
 
 	/* Kick reset here so lpc/fwh.c doesnt need to know about how it is controlled. */
-	DDRD |= _BV(2); //!RST
+	RST_DDR |= _BV(RST); //!RST
+	RST_PORT &= ~_BV(RST);
 	_delay_us(1);
-	DDRD &= ~_BV(2);
+	RST_DDR &= ~_BV(RST);
 	_delay_us(1); // slow pullup
 }
