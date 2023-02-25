@@ -33,7 +33,7 @@ const unsigned char spitststr[] PROGMEM = "SPITEST";
 const unsigned char lpctststr[] PROGMEM = "LPCTEST";
 const unsigned char fwhtststr[] PROGMEM = "FWHTEST";
 const unsigned char frlaopstr[] PROGMEM = "FRSLAOP";
-const unsigned char lpcpinteststr[] PROGMEM = "LPCPINTEST";
+const unsigned char pinteststr[] PROGMEM = "PINTEST";
 const unsigned char calcstr[] PROGMEM = "CALC";
 const unsigned char helpstr[] PROGMEM = "?";
 
@@ -48,7 +48,7 @@ const struct command_t appdb[] PROGMEM = {
 	{(PGM_P)lpctststr, &(lpc_test_cmd)},
 	{(PGM_P)fwhtststr, &(fwh_test_cmd)},
 	{(PGM_P)frlaopstr, &(frser_last_op_cmd)},
-	{(PGM_P)lpcpinteststr, &(lpc_pin_test_cmd)},
+	{(PGM_P)pinteststr, &(pin_test_cmd)},
 	{(PGM_P)calcstr, &(calc_cmd)},
 	{(PGM_P)helpstr, &(help_cmd)},
 	{NULL,NULL}
