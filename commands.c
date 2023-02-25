@@ -356,43 +356,79 @@ void flash_sproto_cmd(void)
 	flash_select_protocol(p);
 }
 
-static uint8_t lpc_pin_test_state = 0;
-void lpc_pin_test_cmd(void)
+static uint8_t pin_test_state = 0;
+void pin_test_cmd(void)
 {
-	if (flash_get_proto()&(CHIP_BUSTYPE_LPC|CHIP_BUSTYPE_FWH)) {
+	if (flash_get_proto()) {
 		flash_select_protocol(0);
 		sendstr_P(PSTR("-> REENABLE BUS WITH SPROTO <-"));
 		sendcrlf();
 		sendcrlf();
 	}
-	switch (lpc_pin_test_state) {
+	spi_uninit();
+
+	switch (pin_test_state) {
 	case 0:
-		sendstr_P(PSTR("pin 2 RST slow pullup to 3V"));
+		sendstr_P(PSTR("SPI pin 1 CS slow pullup to 3V"));
+		spi_deselect();
+
+		sendcrlf();
+		sendstr_P(PSTR("SPI pin 2 DO internal pullup"));
+		SPI_DDR &= ~_BV(SPI_DO);
+		SPI_PORT |= _BV(SPI_DO);
+
+		sendcrlf();
+		sendstr_P(PSTR("SPI pin 5 DI driven, divided to 3V"));
+		SPI_DDR |= _BV(SPI_DI);
+		SPI_PORT |= _BV(SPI_DI);
+
+		sendcrlf();
+		sendstr_P(PSTR("SPI pin 6 CLK driven, divided to 3V"));
+		SPI_DDR |= _BV(SPI_CLK);
+		SPI_PORT |= _BV(SPI_CLK);
+
+		sendcrlf();
+		sendstr_P(PSTR("LPC pin 2 RST slow pullup to 3V"));
 		RST_DDR &= ~_BV(RST);
 
 		sendcrlf();
-		sendstr_P(PSTR("pin 23 FRAME driven, divided to 3V"));
+		sendstr_P(PSTR("LPC pin 23 FRAME driven, divided to 3V"));
 		FRAME_DDR |= _BV(FRAME);
 		FRAME_PORT |= _BV(FRAME);
 
 		sendcrlf();
-		sendstr_P(PSTR("pin 24 INIT slow pullup to 3V"));
+		sendstr_P(PSTR("LPC pin 24 INIT slow pullup to 3V"));
 		INIT_DDR &= ~_BV(INIT);
 
 		sendcrlf();
-		sendstr_P(PSTR("pin 31 CLK driven, divided to 3V"));
+		sendstr_P(PSTR("LPC pin 31 CLK driven, divided to 3V"));
 		CLK_DDR |= _BV(CLK);
 		CLK_PORT |= _BV(CLK);
 
 		sendcrlf();
-		sendstr_P(PSTR("pins 13,14,15,17 NIBBLE pullup to 3V"));
+		sendstr_P(PSTR("LPC pins 13,14,15,17 NIBBLE pullup to 3V"));
 		NIBBLE_DDR = 0;
 
-		lpc_pin_test_state = 1;
+		pin_test_state = 1;
 		break;
 
 	case 1:
-		sendstr_P(PSTR("RST FRAME INIT CLK NIBBLE driven 0V"));
+		sendstr_P(PSTR("SPI CS DO DI CLK driven 0V"));
+		spi_select();
+		SPI_PORT &= ~_BV(SPI_DI);
+		SPI_DDR |= _BV(SPI_DI);
+		SPI_PORT &= ~_BV(SPI_DO);
+		SPI_DDR |= _BV(SPI_DO);
+		SPI_PORT &= ~_BV(SPI_CLK);
+		SPI_DDR |= _BV(SPI_CLK);
+
+		sendcrlf();
+		sendstr_P(PSTR("SPI pin 4 GND wired 0V"));
+		sendcrlf();
+		sendstr_P(PSTR("SPI pins 3,7,8 3V3 wired 3V"));
+
+		sendcrlf();
+		sendstr_P(PSTR("LPC RST FRAME INIT CLK NIBBLE driven 0V"));
 		RST_DDR |= _BV(RST);
 		RST_PORT &= ~_BV(RST);
 		FRAME_DDR |= _BV(FRAME);
@@ -404,12 +440,12 @@ void lpc_pin_test_cmd(void)
 		NIBBLE_DDR = 0xF;
 
 		sendcrlf();
-		sendstr_P(PSTR("pins 3-6,9-12,16,28-30 GND wired 0V"));
+		sendstr_P(PSTR("LPC pins 3-6,9-12,16,28-30 GND wired 0V"));
 		sendcrlf();
-		sendstr_P(PSTR("pins 7,8,25,32 3V3 wired 3V"));
+		sendstr_P(PSTR("LPC pins 7,8,25,32 3V3 wired 3V"));
 
 	default:
-		lpc_pin_test_state = 0;
+		pin_test_state = 0;
 	}
 }
 

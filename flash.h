@@ -20,6 +20,14 @@
 
 #include "frser-flashapi.h"
 
+#define SPI_DDR                 DDRB
+#define SPI_PORT                PORTB
+
+#define SPI_CS                  PB0
+#define SPI_DI                  PB3
+#define SPI_DO                  PB4
+#define SPI_CLK                 PB5
+
 void flash_set_safe(void);
 uint8_t flash_get_proto(void);
 uint8_t flash_idle_clock(void);
